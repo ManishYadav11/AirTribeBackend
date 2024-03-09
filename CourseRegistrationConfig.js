@@ -17,37 +17,42 @@ router.get('/', async (req, res) => {
     }
 });
 
-// Getting by ID
+// Getting data by ID
 router.get('/:courseRegistration_id', async (req, res) => {
     try {
-        const { rows } = await pool.query('SELECT * FROM CourseRegistration');
+        const courseRegistrationId = req.params.courseRegistration_id;
+        const { rows } = await pool.query('SELECT * FROM CourseRegistration WHERE courseRegistration_id = $1', [courseRegistrationId]);
         res.json(rows);
     } catch (err) {
         console.error('Error executing query', err.stack);
         res.status(500).json({ message: 'Internal server error' });
     }
 });
- // Getting by email
-router.get('/:email', async (req, res) => {
+
+ // Getting data by email
+ router.get('/:email', async (req, res) => {
     try {
-        const { rows } = await pool.query('SELECT * FROM CourseRegistration');
+        const email = req.params.email;
+        const { rows } = await pool.query('SELECT * FROM CourseRegistration WHERE email = $1', [email]);
         res.json(rows);
     } catch (err) {
         console.error('Error executing query', err.stack);
         res.status(500).json({ message: 'Internal server error' });
     }
 });
-// Getting by name
+
+// Getting data by name
 router.get('/:name', async (req, res) => {
     try {
-        const { rows } = await pool.query('SELECT * FROM CourseRegistration');
+        const name = req.params.name;
+        const { rows } = await pool.query('SELECT * FROM CourseRegistration WHERE name = $1', [name]);
         res.json(rows);
     } catch (err) {
         console.error('Error executing query', err.stack);
         res.status(500).json({ message: 'Internal server error' });
     }
 });
- 
+
 // Posting Data to DataBase
 router.post('/', async (req, res) => {
     const { course_id, name, email, phone, linkedin_profile, status } = req.body;

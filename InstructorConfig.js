@@ -16,6 +16,7 @@ router.get('/', async (req, res) => {
         res.status(500).json({ message: 'Internal server error' });
     }
 });
+
 // getting data by passing dynamic id
 router.get('/:instructor_id', async (req, res) => {
     const { instructor_id } = req.params;
@@ -31,7 +32,8 @@ router.get('/:instructor_id', async (req, res) => {
         res.status(500).json({ message: 'Internal server error' });
     }
 });
-
+ 
+// post data to database
 router.post('/', async (req, res) => {
     const { name, email } = req.body;
     try {
@@ -64,7 +66,7 @@ router.put('/:instructor_id', async (req, res) => {
     }
 });
 
-//  Deleting the data by searching ID
+//  Deleting the data From Data by searching ID
 router.delete('/:instructor_id', async (req, res) => {
     const { instructor_id } = req.params;
     try {

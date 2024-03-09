@@ -19,7 +19,8 @@ router.get('/', async (req, res) => {
 // Getting Dtaa From DataBase Using ID
 router.get('/:comment_id', async (req, res) => {
     try {
-        const { rows } = await pool.query('SELECT * FROM LeadComments');
+        const commentId = req.params.comment_id;
+        const { rows } = await pool.query('SELECT * FROM LeadComments WHERE comment_id = $1', [commentId]);
         res.json(rows);
     } catch (err) {
         console.error('Error executing query', err.stack);

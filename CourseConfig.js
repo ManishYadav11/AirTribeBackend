@@ -20,14 +20,18 @@ router.get('/', async (req, res) => {
 // Getting Data from DataBase By ID
 router.get('/:course_id', async (req, res) => {
     try {
-        const { rows } = await pool.query('SELECT * FROM Courses');
-        res.json(rows);
+        const courseId = req.params.course_id;
+        const { rows } = await pool.query('SELECT * FROM Courses WHERE course_id = $1', [courseId]);
+        if (rows.length === 0) {
+            // If no course found with the given course_id
+            return res.status(404).json({ message: 'Course not found' });
+        }
+        res.json(rows[0]); // Assuming only one course should match the course_id
     } catch (err) {
         console.error('Error executing query', err.stack);
         res.status(500).json({ message: 'Internal server error' });
     }
 });
-
 // Posting the data in the database
 router.post('/', async (req, res) => {
     const { instructor_id, name, max_seats, start_date } = req.body;
