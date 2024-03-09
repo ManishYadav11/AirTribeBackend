@@ -17,6 +17,18 @@ router.get('/', async (req, res) => {
     }
 });
 
+// Getting Data from DataBase By ID
+router.get('/:course_id', async (req, res) => {
+    try {
+        const { rows } = await pool.query('SELECT * FROM Courses');
+        res.json(rows);
+    } catch (err) {
+        console.error('Error executing query', err.stack);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+});
+
+// Posting the data in the database
 router.post('/', async (req, res) => {
     const { instructor_id, name, max_seats, start_date } = req.body;
     try {
@@ -31,6 +43,7 @@ router.post('/', async (req, res) => {
     }
 });
 
+// Delete Data from DataBase of specific ID
 router.delete('/:course_id', async (req, res) => {
     const { course_id } = req.params;
     try {
@@ -46,6 +59,7 @@ router.delete('/:course_id', async (req, res) => {
     }
 });
 
+// Update data of DataBase 
 router.put('/:course_id', async (req, res) => {
     const { course_id } = req.params;
     const { instructor_id, name, max_seats, start_date } = req.body;

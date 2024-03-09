@@ -16,7 +16,18 @@ router.get('/', async (req, res) => {
         res.status(500).json({ message: 'Internal server error' });
     }
 });
+// Getting Dtaa From DataBase Using ID
+router.get('/:comment_id', async (req, res) => {
+    try {
+        const { rows } = await pool.query('SELECT * FROM LeadComments');
+        res.json(rows);
+    } catch (err) {
+        console.error('Error executing query', err.stack);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+});
 
+// Posting Data To the database
 router.post('/', async (req, res) => {
     const { lead_id, instructor_id, comment } = req.body;
     try {
@@ -31,6 +42,8 @@ router.post('/', async (req, res) => {
     }
 });
 
+
+// Deleting Data from DataBse Usung ID
 router.delete('/:comment_id', async (req, res) => {
     const { comment_id } = req.params;
     try {
@@ -46,6 +59,7 @@ router.delete('/:comment_id', async (req, res) => {
     }
 });
 
+// Updating Data from DataBse Usung ID
 router.put('/:comment_id', async (req, res) => {
     const { comment_id } = req.params;
     const { lead_id, instructor_id, comment } = req.body;
